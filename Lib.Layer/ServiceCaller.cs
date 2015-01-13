@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Lib.ServiceContracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
@@ -58,6 +59,46 @@ namespace Lib.Layer
                 }
                 finally
                 {
+                    (proxy as ICommunicationObject).Close();
+                }
+            }
+        }
+
+        public static void Execute<ISvc>(EventHandler<SubscriberCallbackEventArgs> cb , Action<ISvc> ac)
+        {
+            string address = __getAddress<ISvc>();
+
+            SubscriberCallback sc = new SubscriberCallback();
+            sc.OnPublish += cb;
+            InstanceContext context = new InstanceContext(sc);
+            NetTcpBinding binding = __getBinding();
+
+            using (var factory = new DuplexChannelFactory<ISvc>(context, binding))
+            {
+                ISvc proxy = factory.CreateChannel(new EndpointAddress(address));
+                try
+                {
+                    ac(proxy);
+                }
+                catch (EndpointNotFoundException)
+                {
+                    (proxy as ICommunicationObject).Abort();
+                }
+                catch (CommunicationException)
+                {
+                    (proxy as ICommunicationObject).Abort();
+                }
+                catch (TimeoutException)
+                {
+                    (proxy as ICommunicationObject).Abort();
+                }
+                catch (Exception)
+                {
+                    (proxy as ICommunicationObject).Close();
+                }
+                finally
+                {
+                    sc.OnPublish -= cb;
                     (proxy as ICommunicationObject).Close();
                 }
             }

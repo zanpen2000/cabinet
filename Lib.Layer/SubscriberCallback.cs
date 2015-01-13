@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Lib.ServiceContracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Lib.ServiceContracts
+namespace Lib.Layer
 {
     public class SubscriberCallback : ISubscriberCallback
     {

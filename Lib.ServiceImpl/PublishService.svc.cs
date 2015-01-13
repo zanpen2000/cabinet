@@ -7,12 +7,14 @@ using System.Text;
 
 namespace Lib.ServiceImpl
 {
+    using Lib.Layer;
     using ServiceContracts;
     using System.ServiceModel.Channels;
-
+    
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class PublishService : IPublishService
     {
+        [Log(LogType.ApplicationInfo)]
         public void Regist(string clientMac)
         {
             RemoteEndpointMessageProperty remote =
@@ -20,22 +22,43 @@ namespace Lib.ServiceImpl
             ISubscriberCallback callback = OperationContext.Current.GetCallbackChannel<ISubscriberCallback>();
             OperationContext.Current.Channel.Closing += (x, y) =>
             {
-                SubscriberContainer.Instance.RemoveSubscriber(new Subscriber(clientMac, remote.Address, remote.Port, callback));
+                SubscriberContainer.Instance.RemoveSubscriber(Subscriber.NewSubscriber(clientMac, remote.Address, remote.Port, callback));
             };
-            SubscriberContainer.Instance.AddSubscriber(new Subscriber(clientMac, remote.Address, remote.Port, callback));
+            SubscriberContainer.Instance.AddSubscriber(Subscriber.NewSubscriber(clientMac, remote.Address, remote.Port, callback));
         }
 
+        [Log(LogType.ApplicationInfo)]
         public void Unregist(string clientMac)
         {
             RemoteEndpointMessageProperty remote =
                OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
             ISubscriberCallback callback = OperationContext.Current.GetCallbackChannel<ISubscriberCallback>();
-            SubscriberContainer.Instance.RemoveSubscriber(new Subscriber(clientMac, remote.Address, remote.Port, callback));
+            SubscriberContainer.Instance.RemoveSubscriber(Subscriber.NewSubscriber(clientMac, remote.Address, remote.Port, callback));
         }
 
+        [Log(LogType.All)]
         public void MsgReceiveTest(string msg)
         {
             Lib.Layer.Logger.AppendUserMessage("客户端消息: " + msg);
+        }
+
+        [Log(LogType.UserMessage)]
+        public void Broadcast(string msg)
+        {
+            SubscriberContainer.Instance.NotifyMessage(msg);
+        }
+
+        [Log(LogType.UserMessage)]
+        public void Broadcast(string clientMac, string msg)
+        {
+            SubscriberContainer.Instance.NotifyMessage(clientMac, msg);
+        }
+
+        [Log(LogType.UserMessage)]
+        public void Broadcast(IEnumerable<string> clientMacs, string msg)
+        {
+            SubscriberContainer.Instance.NotifyMessage(clientMacs, msg);
+
         }
     }
 }

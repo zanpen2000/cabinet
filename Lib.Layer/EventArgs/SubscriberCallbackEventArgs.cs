@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Lib.ServiceContracts
+namespace Lib.Layer
 {
     public class SubscriberCallbackEventArgs : EventArgs
     {

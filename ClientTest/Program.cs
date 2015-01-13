@@ -18,8 +18,12 @@ namespace ClientTest
             InstanceContext context = new InstanceContext(callback);
             ServiceCaller.Execute<IPublishService>(context, net =>
             {
-                net.Regist("Client Demo");
+                net.Regist("mac1");
+                net.Regist("mac2");
+                net.Regist("mac3");
+                net.Regist("mac4");
                 net.MsgReceiveTest("hahahahahaah");
+                Console.Read();
             });
 
             Console.WriteLine("here");
@@ -29,7 +33,7 @@ namespace ClientTest
 
         static void callback_OnPublish(object sender, SubscriberCallbackEventArgs e)
         {
-            Console.WriteLine(e.Message);
+            Console.WriteLine("接收到服务器消息： "+ e.Message);
         }
     }
 

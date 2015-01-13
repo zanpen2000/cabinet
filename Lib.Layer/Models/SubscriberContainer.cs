@@ -1,10 +1,11 @@
 ﻿using Lib.Librarys;
+using Lib.ServiceContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Lib.ServiceContracts
+namespace Lib.Layer
 {
     public class SubscriberContainer
     {
@@ -32,20 +33,20 @@ namespace Lib.ServiceContracts
 
         private SubscriberContainer()
         {
-            
+
         }
 
-        
+
 
         #endregion
 
-        public List<Subscriber> Subscribers { get { return _subscribers; } }
+        public List<ISubscriber> Subscribers { get { return _subscribers; } }
 
         public event EventHandler<SubscriberMessageEventArgs> SubscriberAdded;
         public event EventHandler<SubscriberMessageEventArgs> SubscriberRemoved;
         public event EventHandler<MessageNotifyErrorEventArgs> NotifyError;
 
-        private List<Subscriber> _subscribers = new List<Subscriber>(0);
+        private List<ISubscriber> _subscribers = new List<ISubscriber>(0);
 
         /// <summary>
         /// 根据运行机制决定是否允许同一个客户端订阅多次
@@ -66,7 +67,7 @@ namespace Lib.ServiceContracts
         }
 
 
-        public void AddSubscriber(Subscriber listener)
+        public void AddSubscriber(ISubscriber listener)
         {
             lock (_syncLock)
             {
@@ -85,17 +86,13 @@ namespace Lib.ServiceContracts
             }
         }
 
-        public void RemoveSubscriber(Subscriber listener)
+        public void RemoveSubscriber(ISubscriber listener)
         {
             lock (_syncLock)
             {
-                if (_subscribers.Contains(listener))
+                if (_subscribers.Count(x => x.ClientMacAddress == listener.ClientMacAddress) > 0)
                 {
-                    this._subscribers.Remove(listener);
-                }
-                else
-                {
-                    throw new InvalidOperationException("要移除的监听器不存在");
+                    this._subscribers.RemoveAll(x => x.ClientMacAddress == listener.ClientMacAddress);
                 }
             }
             if (SubscriberRemoved != null)
@@ -106,8 +103,8 @@ namespace Lib.ServiceContracts
 
         public void NotifyMessage(string message)
         {
-            Subscriber[] listeners = _subscribers.ToArray();
-            foreach (Subscriber lstn in listeners)
+            ISubscriber[] listeners = _subscribers.ToArray();
+            foreach (ISubscriber lstn in listeners)
             {
                 try
                 {
@@ -119,7 +116,46 @@ namespace Lib.ServiceContracts
                 }
             }
         }
-        private void OnNotifyError(Subscriber subscriber, Exception ex)
+
+
+        public void NotifyMessage(string clientMac, string message)
+        {
+            ISubscriber[] listeners = _subscribers.ToArray();
+            foreach (ISubscriber lstn in listeners.Where(l => l.ClientMacAddress == clientMac))
+            {
+                try
+                {
+                    lstn.Notify(message);
+                }
+                catch (Exception ex)
+                {
+                    OnNotifyError(lstn, ex);
+                }
+            }
+        }
+
+        public void NotifyMessage(IEnumerable<string> clientMacs, string message)
+        {
+            ISubscriber[] listeners = _subscribers.ToArray();
+
+            foreach (ISubscriber lstn in listeners)
+            {
+                if (clientMacs.Contains(lstn.ClientMacAddress))
+                {
+                    try
+                    {
+                        lstn.Notify(message);
+                    }
+                    catch (Exception ex)
+                    {
+                        OnNotifyError(lstn, ex);
+                    }
+                }
+            }
+        }
+
+
+        private void OnNotifyError(ISubscriber subscriber, Exception ex)
         {
             if (this.NotifyError == null)
             {

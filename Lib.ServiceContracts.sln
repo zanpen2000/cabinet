@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lib.Layer", "Lib.Layer\Lib.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BehaviorLibrarys", "BehaviorLibrarys\BehaviorLibrarys.csproj", "{D494DCF0-EE05-4644-9346-D4CB85FC858B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroiadCaster", "BroiadCaster\BroiadCaster.csproj", "{4D3D47D0-BD9F-465E-93A9-FC4836658340}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{D494DCF0-EE05-4644-9346-D4CB85FC858B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D494DCF0-EE05-4644-9346-D4CB85FC858B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D494DCF0-EE05-4644-9346-D4CB85FC858B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D3D47D0-BD9F-465E-93A9-FC4836658340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D3D47D0-BD9F-465E-93A9-FC4836658340}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D3D47D0-BD9F-465E-93A9-FC4836658340}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D3D47D0-BD9F-465E-93A9-FC4836658340}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

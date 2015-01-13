@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Lib.ServiceContracts
+namespace Lib.Layer
 {
     public class SubscriberMessageEventArgs : EventArgs
     {
-        public Subscriber Subscriber { get; private set; }
+        public ISubscriber Subscriber { get; private set; }
 
-        public SubscriberMessageEventArgs(Subscriber listener)
+        public SubscriberMessageEventArgs(ISubscriber listener)
         {
             this.Subscriber = listener;
         }
