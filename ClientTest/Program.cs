@@ -15,13 +15,16 @@ namespace ClientTest
         {
             SubscriberCallback callback = new SubscriberCallback();
             callback.OnPublish += callback_OnPublish;
+            callback.OnReturnRegis += callback_OnReturnRegis;
+            callback.OnReturnUnregis += callback_OnReturnUnregis;
+
             InstanceContext context = new InstanceContext(callback);
             ServiceCaller.Execute<IPublishService>(context, net =>
             {
-                net.Regist("mac1");
-                net.Regist("mac2");
-                net.Regist("mac3");
-                net.Regist("mac4");
+                for (int i = 0; i < 20; i++)
+                {
+                    net.Regist("Mac" + i.ToString());
+                }
                 net.MsgReceiveTest("hahahahahaah");
                 Console.Read();
             });
@@ -31,9 +34,20 @@ namespace ClientTest
             Console.Read();
         }
 
+        static void callback_OnReturnUnregis(object sender, SubscriberCallbackEventArgs e)
+        {
+            Console.WriteLine("客户端注销：" + e.ClientMac);
+        }
+
+        static void callback_OnReturnRegis(object sender, SubscriberCallbackEventArgs e)
+        {
+            Console.WriteLine("客户端注册：" + e.ClientMac);
+        }
+
         static void callback_OnPublish(object sender, SubscriberCallbackEventArgs e)
         {
-            Console.WriteLine("接收到服务器消息： "+ e.Message);
+
+            Console.WriteLine(e.ClientMac + " 接收到服务器消息： " + e.Message);
         }
     }
 

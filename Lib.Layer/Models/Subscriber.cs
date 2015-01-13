@@ -39,7 +39,7 @@ namespace Lib.Layer
 
         public void Notify(string message)
         {
-            ClientCallback.Publish(message);
+            ClientCallback.Publish(ClientMacAddress,message);
         }
 
         public override bool Equals(object obj)

@@ -10,7 +10,7 @@ namespace Lib.ServiceImpl
     using Lib.Layer;
     using ServiceContracts;
     using System.ServiceModel.Channels;
-    
+
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Reentrant)]
     public class PublishService : IPublishService
     {
@@ -25,6 +25,7 @@ namespace Lib.ServiceImpl
                 SubscriberContainer.Instance.RemoveSubscriber(Subscriber.NewSubscriber(clientMac, remote.Address, remote.Port, callback));
             };
             SubscriberContainer.Instance.AddSubscriber(Subscriber.NewSubscriber(clientMac, remote.Address, remote.Port, callback));
+            callback.ReturnRegis(clientMac, string.Format("客户端{0}注册成功", clientMac));
         }
 
         [Log(LogType.ApplicationInfo)]
@@ -34,6 +35,7 @@ namespace Lib.ServiceImpl
                OperationContext.Current.IncomingMessageProperties[RemoteEndpointMessageProperty.Name] as RemoteEndpointMessageProperty;
             ISubscriberCallback callback = OperationContext.Current.GetCallbackChannel<ISubscriberCallback>();
             SubscriberContainer.Instance.RemoveSubscriber(Subscriber.NewSubscriber(clientMac, remote.Address, remote.Port, callback));
+            callback.ReturnUnregis(clientMac, string.Format("客户端{0}取消注册", clientMac));
         }
 
         [Log(LogType.All)]

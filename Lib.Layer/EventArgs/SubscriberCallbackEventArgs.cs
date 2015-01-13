@@ -8,10 +8,12 @@ namespace Lib.Layer
     public class SubscriberCallbackEventArgs : EventArgs
     {
         public string Message { get; private set; }
+        public string ClientMac { get; private set; }
 
-        public SubscriberCallbackEventArgs(string message)
+        public SubscriberCallbackEventArgs(string clientMac, string message)
         {
             this.Message = message;
+            this.ClientMac = clientMac;
         }
     }
 }

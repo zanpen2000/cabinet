@@ -21,11 +21,14 @@ namespace BroiadCaster
 
         private void button1_Click(object sender, EventArgs e)
         {
+            var clients = textBox2.Text.Split(new char[] { ',', ' ' });
+
             ServiceCaller.Execute<IPublishService>(callback_OnPublish, net =>
             {
-                net.Broadcast(textBox1.Text);
-                net.Broadcast("mac1", textBox1.Text);
-                net.Broadcast("mac3", textBox1.Text);
+                foreach (var item in clients.ToArray())
+                {
+                    net.Broadcast(item, textBox1.Text);
+                }
             });
         }
 
@@ -35,6 +38,6 @@ namespace BroiadCaster
         }
 
 
-      
+
     }
 }
