@@ -17,7 +17,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>bin\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -32,9 +32,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
@@ -60,6 +57,10 @@
       <Project>{d494dcf0-ee05-4644-9346-d4cb85fc858b}</Project>
       <Name>BehaviorLibrarys</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lib.Layer\Lib.Layer.csproj">
+      <Project>{7910f50b-4b1c-4845-93ea-dad746e7ce27}</Project>
+      <Name>Lib.Layer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Lib.ServiceContracts\Lib.ServiceContracts.csproj">
       <Project>{463a06b0-5e73-43f1-80a4-b9b8393bcdd1}</Project>
       <Name>Lib.ServiceContracts</Name>
@@ -72,8 +73,8 @@
   <ItemGroup>
     <None Include="App.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

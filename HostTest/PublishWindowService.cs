@@ -5,20 +5,19 @@ using System.Linq;
 using System.ServiceModel;
 using System.ServiceProcess;
 using System.Text;
-using log4net;
 using System.IO;
+using Lib.Layer;
 
 namespace HostService
 {
     public class PublishWindowService : ServiceBase
     {
         public ServiceHost serviceHost = null;
-        private ILog logger = null;
 
         public PublishWindowService()
         {
             ServiceName = "TSDYKJ_PublishService";
-            logger = LogManager.GetLogger("Global");
+        
         }
 
         public static void Main()
@@ -47,37 +46,39 @@ namespace HostService
 
         void serviceHost_Closing(object sender, EventArgs e)
         {
-            logger.Info(ServiceName + " 正在停止...");
+            Logger.AppendInfo(ServiceName + " 正在停止...");
         }
 
         void serviceHost_Opening(object sender, EventArgs e)
         {
-            logger.Info(ServiceName + " 正在启动...");
+            Logger.AppendInfo(ServiceName + " 正在启动...");
         }
 
         void serviceHost_Closed(object sender, EventArgs e)
         {
-            logger.Info(ServiceName + " 已停止");
+            Logger.AppendInfo(ServiceName + " 已停止");
         }
 
         void serviceHost_Opened(object sender, EventArgs e)
         {
-            logger.Info(ServiceName + " 已启动");
+            Logger.AppendInfo(ServiceName + " 已启动");
         }
 
         private void Instance_NotifyError(object sender, MessageNotifyErrorEventArgs e)
         {
-            logger.Info(e.Subscriber.ToString(), e.Error);
+            Logger.AppendInfo(e.Subscriber.ToString(), e.Error);
         }
 
         private void Instance_SubscriberRemoved(object sender, SubscriberMessageEventArgs e)
         {
-            logger.Info(string.Format("客户端离线：{0}", e.Subscriber.ToString()));
+            Logger.AppendUserMessage(string.Format("客户端离线：{0}", e.Subscriber.ToString()));
+            //Logger.AppendInfo(string.Format("客户端离线：{0}", e.Subscriber.ToString()));
         }
 
         private void Instance_SubscriberAdded(object sender, SubscriberMessageEventArgs e)
         {
-            logger.Info(string.Format("客户端上线：{0}", e.Subscriber.ToString()));
+            Logger.AppendUserMessage(string.Format("客户端上线：{0}", e.Subscriber.ToString()));
+            //Logger.AppendInfo(string.Format("客户端上线：{0}", e.Subscriber.ToString()));
         }
 
         protected override void OnStop()

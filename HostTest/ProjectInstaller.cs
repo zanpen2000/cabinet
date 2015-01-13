@@ -20,6 +20,7 @@ namespace HostService
             process.Account = ServiceAccount.LocalSystem;
             service = new ServiceInstaller();
             service.ServiceName = "TSDYKJ_PublishService";
+            service.Description = "唐山市达意科技快递业务发布服务";
             Installers.Add(process);
             Installers.Add(service);
         }
