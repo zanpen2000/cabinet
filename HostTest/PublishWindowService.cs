@@ -17,7 +17,7 @@ namespace HostService
         public PublishWindowService()
         {
             ServiceName = "TSDYKJ_PublishService";
-        
+
         }
 
         public static void Main()
@@ -66,19 +66,20 @@ namespace HostService
 
         private void Instance_NotifyError(object sender, MessageNotifyErrorEventArgs e)
         {
-            Logger.AppendInfo(e.Subscriber.ToString(), e.Error);
+            Logger.AppendInfo(e.Subscriber.ClientMacAddress + ":" + e.Subscriber.ToString(), e.Error);
         }
 
         private void Instance_SubscriberRemoved(object sender, SubscriberMessageEventArgs e)
         {
-            Logger.AppendUserMessage(string.Format("客户端离线：{0}", e.Subscriber.ToString()));
-            //Logger.AppendInfo(string.Format("客户端离线：{0}", e.Subscriber.ToString()));
+            Logger.AppendUserMessage(string.Format("客户端离线：{0}", e.Subscriber.ClientMacAddress));
+
         }
 
         private void Instance_SubscriberAdded(object sender, SubscriberMessageEventArgs e)
         {
-            Logger.AppendUserMessage(string.Format("客户端上线：{0}", e.Subscriber.ToString()));
-            //Logger.AppendInfo(string.Format("客户端上线：{0}", e.Subscriber.ToString()));
+            Logger.AppendUserMessage(string.Format("客户端上线：{0}", e.Subscriber.ClientMacAddress));
+            //Logger.AppendUserMessage(string.Format("客户端上线：{0}", e.Subscriber.ToString()));
+
         }
 
         protected override void OnStop()

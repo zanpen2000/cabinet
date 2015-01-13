@@ -41,7 +41,7 @@ namespace Lib.ServiceImpl
         [Log(LogType.All)]
         public void MsgReceiveTest(string msg)
         {
-            Lib.Layer.Logger.AppendUserMessage("客户端消息: " + msg);
+            
         }
 
         [Log(LogType.UserMessage)]
