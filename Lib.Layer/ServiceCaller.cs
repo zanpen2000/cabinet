@@ -3,12 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using System.ServiceModel.Channels;
 using System.Text;
 
 namespace Lib.Layer
 {
     public class ServiceCaller
     {
+
+        static int RetryTimes = int.Parse(Librarys.AppSettings.Get("RetryTimes"));
+        static int _currentTime = 0;
+
         private static string __getAddress<ISvc>()
         {
             string baseAddr = Librarys.AppSettings.Get("ServiceBaseAddress");
@@ -28,6 +33,22 @@ namespace Lib.Layer
             return "net.tcp://" + baseAddr + "/" + svrName;
         }
 
+
+        private static void __retry<ISvc>(ISvc proxy, InstanceContext context, Action<ISvc> ac)
+        {
+            (proxy as ICommunicationObject).Abort();
+            if (_currentTime < RetryTimes)
+            {
+                _currentTime++;
+                Console.WriteLine("EndpointNotFoundException,进行第{0}次重试", _currentTime.ToString());
+                Execute<ISvc>(context, ac);
+            }
+            else
+            {
+                Console.WriteLine("已超出重试次数");
+            }
+        }
+
         public static void Execute<ISvc>(InstanceContext context, Action<ISvc> ac)
         {
             string address = __getAddress<ISvc>();
@@ -43,19 +64,20 @@ namespace Lib.Layer
                 }
                 catch (EndpointNotFoundException)
                 {
-                    (proxy as ICommunicationObject).Abort();
+                    __retry<ISvc>(proxy, context, ac);
                 }
                 catch (CommunicationException)
                 {
-                    (proxy as ICommunicationObject).Abort();
+                    __retry<ISvc>(proxy, context, ac);
                 }
-                catch (TimeoutException)
+                catch (TimeoutException ex)
                 {
-                    (proxy as ICommunicationObject).Abort();
+                    __retry<ISvc>(proxy, context, ac);
                 }
                 catch (Exception)
                 {
-                    (proxy as ICommunicationObject).Close();
+                    __retry<ISvc>(proxy, context, ac);
+
                 }
                 finally
                 {
@@ -64,7 +86,7 @@ namespace Lib.Layer
             }
         }
 
-        public static void Execute<ISvc>(EventHandler<SubscriberCallbackEventArgs> cb , Action<ISvc> ac)
+        public static void Execute<ISvc>(EventHandler<SubscriberCallbackEventArgs> cb, Action<ISvc> ac)
         {
             string address = __getAddress<ISvc>();
 
@@ -82,19 +104,19 @@ namespace Lib.Layer
                 }
                 catch (EndpointNotFoundException)
                 {
-                    (proxy as ICommunicationObject).Abort();
+                    __retry<ISvc>(proxy, context, ac);
                 }
                 catch (CommunicationException)
                 {
-                    (proxy as ICommunicationObject).Abort();
+                    __retry<ISvc>(proxy, context, ac);
                 }
-                catch (TimeoutException)
+                catch (TimeoutException ex)
                 {
-                    (proxy as ICommunicationObject).Abort();
+                    __retry<ISvc>(proxy, context, ac);
                 }
                 catch (Exception)
                 {
-                    (proxy as ICommunicationObject).Close();
+                    __retry<ISvc>(proxy, context, ac);
                 }
                 finally
                 {
@@ -110,7 +132,7 @@ namespace Lib.Layer
             binding.ReliableSession.Enabled = true;
             binding.ReliableSession.Ordered = true;
             binding.ReliableSession.InactivityTimeout = new TimeSpan(0, 10, 0);
-            
+
             //系统默认MaxRetryCount=8，超过8系统报错，若要自定义该值，需要使用CustomBinding
             //binding.ReliableSession.MaxRetryCount = 10;
 
@@ -126,8 +148,8 @@ namespace Lib.Layer
             binding.MaxConnections = 400;
 
             binding.CloseTimeout = new TimeSpan(0, 1, 0);
-            binding.SendTimeout = new TimeSpan(0, 30, 0);
-            binding.ReceiveTimeout = new TimeSpan(0, 30, 0);
+            binding.SendTimeout = new TimeSpan(0, 0, 10); //通道打开超时？
+            binding.ReceiveTimeout = new TimeSpan(0, 3, 0);
             binding.OpenTimeout = new TimeSpan(0, 1, 0);
 
             binding.ReaderQuotas.MaxDepth = 32;
