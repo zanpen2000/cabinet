@@ -43,6 +43,10 @@ namespace Lib.ServiceContracts
         [OperationContract(Name = "BroadcastToClients")]
         void Broadcast(IEnumerable<string> clientMacs, string msg);
 
-
+        /// <summary>
+        /// 获取订阅者
+        /// </summary>
+        [OperationContract]
+        void GetSubscribers();
     }
 }

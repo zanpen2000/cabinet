@@ -52,6 +52,7 @@
     <Compile Include="Aop\InterceptorProxy.cs" />
     <Compile Include="Aop\LogAttribute.cs" />
     <Compile Include="Aop\Logger.cs" />
+    <Compile Include="EventArgs\SubscribersCallbackEventArgs.cs" />
     <Compile Include="EventArgs\MessageNotifyErrorEventArgs.cs" />
     <Compile Include="EventArgs\SubscriberCallbackEventArgs.cs" />
     <Compile Include="EventArgs\SubscriberMessageEventArgs.cs" />

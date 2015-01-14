@@ -147,9 +147,9 @@ namespace Lib.Layer
             binding.MaxBufferSize = 2147483647;
             binding.MaxConnections = 400;
 
-            binding.CloseTimeout = new TimeSpan(0, 1, 0);
-            binding.SendTimeout = new TimeSpan(0, 0, 10); //通道打开超时？
-            binding.ReceiveTimeout = new TimeSpan(0, 3, 0);
+            binding.CloseTimeout = new TimeSpan(0, 30, 0);
+            binding.SendTimeout = new TimeSpan(0, 30, 0); //通道打开超时？
+            binding.ReceiveTimeout = new TimeSpan(0, 30, 0);
             binding.OpenTimeout = new TimeSpan(0, 1, 0);
 
             binding.ReaderQuotas.MaxDepth = 32;

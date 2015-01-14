@@ -9,6 +9,7 @@ using System.Windows.Forms;
 
 using Lib.Layer;
 using Lib.ServiceContracts;
+using System.ServiceModel;
 
 namespace BroiadCaster
 {
@@ -17,7 +18,10 @@ namespace BroiadCaster
         public Form1()
         {
             InitializeComponent();
+
         }
+
+
 
         private void button1_Click(object sender, EventArgs e)
         {
@@ -37,7 +41,46 @@ namespace BroiadCaster
             MessageBox.Show(e.Message);
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            System.Threading.Tasks.Task.Factory.StartNew(() =>
+            {
+                SubscriberCallback cb = new SubscriberCallback();
+                cb.OnReturnSubscribers += cb_OnReturnSubscribers;
 
+                InstanceContext ins = new InstanceContext(cb);
+                ServiceCaller.Execute<IPublishService>(ins, net =>
+                {
+                    net.GetSubscribers();
+                });
+            });
+        }
 
+        void cb_OnReturnSubscribers(object sender, SubscribersCallbackEventArgs e)
+        {
+            Invoke((Action)delegate
+            {
+                this.listBox1.DataSource = e.Subscribers;
+            });
+        }
+        public void Publish(string mac, string message)
+        {
+
+        }
+
+        public void ReturnRegis(string mac, string msg)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void ReturnUnregis(string mac, string msg)
+        {
+            //throw new NotImplementedException();
+        }
+
+        public void ReturnSubscribers(IEnumerable<ISubscriber> subscriberMacs)
+        {
+
+        }
     }
 }

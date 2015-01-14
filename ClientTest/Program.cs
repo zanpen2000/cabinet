@@ -30,9 +30,16 @@ namespace ClientTest
                 }
                 net.MsgReceiveTest("hahahahahaah");
                 Console.Read();
+
+                for (int i = 0; i < 10; i++)
+                {
+                    net.Unregist("Mac" + i.ToString());
+                }
+
+                Console.Read();
             });
 
-            Console.WriteLine("here");
+            Console.WriteLine("{0}\there", DateTime.Now);
 
             Console.Read();
         }

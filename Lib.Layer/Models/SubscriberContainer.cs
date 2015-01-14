@@ -3,10 +3,12 @@ using Lib.ServiceContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Lib.Layer
 {
+    
     public class SubscriberContainer
     {
         #region 单例实现

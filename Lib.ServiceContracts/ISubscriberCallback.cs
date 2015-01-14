@@ -8,7 +8,7 @@ namespace Lib.ServiceContracts
 {
     public interface ISubscriberCallback
     {
-        [OperationContract(IsOneWay=true)]
+        [OperationContract(IsOneWay = true)]
         void Publish(string mac, string message);
 
         [OperationContract(IsOneWay = true)]
@@ -17,5 +17,7 @@ namespace Lib.ServiceContracts
         [OperationContract(IsOneWay = true)]
         void ReturnUnregis(string mac, string msg);
 
+        [OperationContract(IsOneWay = true)]
+        void ReturnSubscribers(IEnumerable<string> subscriberMacs);
     }
 }

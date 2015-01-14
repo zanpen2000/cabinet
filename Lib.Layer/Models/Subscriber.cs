@@ -3,15 +3,21 @@ using Lib.ServiceContracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Lib.Layer
 {
+    [DataContract]
     public class Subscriber : ISubscriber
     {
+        [DataMember]
         public string ClientMacAddress { get; private set; }
+        [DataMember]
         public string ClientIPAddress { get; private set; }
+        [DataMember]
         public int ClientPort { get; private set; }
+
         public ISubscriberCallback ClientCallback
         {
             get;
@@ -66,20 +72,7 @@ namespace Lib.Layer
             return string.Format("{0}({1}:{2})", this.ClientMacAddress, this.ClientIPAddress, this.ClientPort);
         }
 
-
-
-
-
-    
     }
 
-    public interface ISubscriber
-    {
-        string ClientMacAddress { get; }
-        string ClientIPAddress { get; }
-        int ClientPort { get; }
-        ISubscriberCallback ClientCallback { get; }
 
-        void Notify(string message);
-    }
 }

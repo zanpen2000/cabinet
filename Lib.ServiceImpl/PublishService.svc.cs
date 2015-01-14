@@ -41,7 +41,7 @@ namespace Lib.ServiceImpl
         [Log(LogType.All)]
         public void MsgReceiveTest(string msg)
         {
-            
+
         }
 
         [Log(LogType.UserMessage)]
@@ -60,7 +60,13 @@ namespace Lib.ServiceImpl
         public void Broadcast(IEnumerable<string> clientMacs, string msg)
         {
             SubscriberContainer.Instance.NotifyMessage(clientMacs, msg);
+        }
 
+        [Log(LogType.UserMessage, "获取所有订阅者")]
+        public void GetSubscribers()
+        {
+            ISubscriberCallback callback = OperationContext.Current.GetCallbackChannel<ISubscriberCallback>();
+            callback.ReturnSubscribers((from n in SubscriberContainer.Instance.Subscribers select n.ClientMacAddress).ToList());
         }
     }
 }

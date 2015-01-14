@@ -35,6 +35,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -43,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IManager.cs" />
+    <Compile Include="IManagerCallback.cs" />
+    <Compile Include="ISubscriber.cs" />
     <Compile Include="ISubscriberCallback.cs" />
     <Compile Include="IPublishService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -11,7 +11,7 @@ namespace Lib.Layer
         public event EventHandler<SubscriberCallbackEventArgs> OnPublish = delegate { };
         public event EventHandler<SubscriberCallbackEventArgs> OnReturnRegis = delegate { };
         public event EventHandler<SubscriberCallbackEventArgs> OnReturnUnregis = delegate { };
-
+        public event EventHandler<SubscribersCallbackEventArgs> OnReturnSubscribers = delegate { };
 
         public void Publish(string mac, string message)
         {
@@ -27,6 +27,11 @@ namespace Lib.Layer
         public void ReturnUnregis(string mac, string msg)
         {
             OnReturnUnregis(this, new SubscriberCallbackEventArgs(mac,msg));
+        }
+
+        public void ReturnSubscribers(IEnumerable<string> subs)
+        {
+            OnReturnSubscribers(this, new SubscribersCallbackEventArgs(subs));
         }
     }
 }
