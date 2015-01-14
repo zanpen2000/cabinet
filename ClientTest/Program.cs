@@ -13,6 +13,9 @@ namespace ClientTest
     {
         static void Main(string[] args)
         {
+
+            Console.WriteLine("{0}\t程序已启动，连接服务器... ", DateTime.Now);
+
             SubscriberCallback callback = new SubscriberCallback();
             callback.OnPublish += callback_OnPublish;
             callback.OnReturnRegis += callback_OnReturnRegis;
@@ -36,12 +39,12 @@ namespace ClientTest
 
         static void callback_OnReturnUnregis(object sender, SubscriberCallbackEventArgs e)
         {
-            Console.WriteLine("客户端注销：" + e.ClientMac);
+            Console.WriteLine(DateTime.Now.ToString() + "\t客户端注销：" + e.ClientMac);
         }
 
         static void callback_OnReturnRegis(object sender, SubscriberCallbackEventArgs e)
         {
-            Console.WriteLine("客户端注册：" + e.ClientMac);
+            Console.WriteLine(DateTime.Now.ToString() + "\t客户端注册：" + e.ClientMac);
         }
 
         static void callback_OnPublish(object sender, SubscriberCallbackEventArgs e)
