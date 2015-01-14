@@ -66,18 +66,18 @@ namespace HostService
 
         private void Instance_NotifyError(object sender, MessageNotifyErrorEventArgs e)
         {
-            Logger.AppendInfo(e.Subscriber.ClientMacAddress + ":" + e.Subscriber.ToString(), e.Error);
+            Logger.AppendInfo(e.Subscriber.Mac + ":" + e.Subscriber.ToString(), e.Error);
         }
 
         private void Instance_SubscriberRemoved(object sender, SubscriberMessageEventArgs e)
         {
-            Logger.AppendUserMessage(string.Format("客户端离线：{0}", e.Subscriber.ClientMacAddress));
+            Logger.AppendUserMessage(string.Format("客户端离线：{0}", e.Subscriber.Mac));
 
         }
 
         private void Instance_SubscriberAdded(object sender, SubscriberMessageEventArgs e)
         {
-            Logger.AppendUserMessage(string.Format("客户端上线：{0}", e.Subscriber.ClientMacAddress));
+            Logger.AppendUserMessage(string.Format("客户端上线：{0}", e.Subscriber.Mac));
             //Logger.AppendUserMessage(string.Format("客户端上线：{0}", e.Subscriber.ToString()));
 
         }

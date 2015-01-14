@@ -8,25 +8,26 @@ using System.Text;
 
 namespace Lib.Layer
 {
-    [DataContract]
+
     public class Subscriber : ISubscriber
     {
-        [DataMember]
-        public string ClientMacAddress { get; private set; }
-        [DataMember]
-        public string ClientIPAddress { get; private set; }
-        [DataMember]
-        public int ClientPort { get; private set; }
+        public string Mac { get; private set; }
 
-        public ISubscriberCallback ClientCallback
+        public string IP { get; private set; }
+
+        public int Port { get; private set; }
+
+        public bool IsManager { get; private set; }
+
+        public ISubscriberCallback Callback
         {
             get;
             private set;
         }
-        private Subscriber(string cMac, string cIP, int cPort, ISubscriberCallback clientCallback)
+        private Subscriber(string cMac, string cIP, int cPort, ISubscriberCallback clientCallback, bool isManager = false)
             : this()
         {
-            this.ClientMacAddress = cMac; this.ClientIPAddress = cIP; this.ClientPort = cPort; this.ClientCallback = clientCallback;
+            this.Mac = cMac; this.IP = cIP; this.Port = cPort; this.Callback = clientCallback; this.IsManager = isManager;
         }
 
         public Subscriber()
@@ -34,9 +35,9 @@ namespace Lib.Layer
 
         }
 
-        public static ISubscriber NewSubscriber(string cMac, string cIP, int cPort, ISubscriberCallback clientCallback)
+        public static ISubscriber NewSubscriber(string cMac, string cIP, int cPort, ISubscriberCallback clientCallback, bool isManager = false)
         {
-            ISubscriber suber = new Subscriber(cMac, cIP, cPort, clientCallback);
+            ISubscriber suber = new Subscriber(cMac, cIP, cPort, clientCallback, isManager);
             ProxyGenerator generator = new ProxyGenerator();
             ISubscriber subscriber = (ISubscriber)generator.CreateInterfaceProxyWithTarget(typeof(ISubscriber), suber, new InterceptorProxy());
             suber = subscriber;
@@ -45,7 +46,7 @@ namespace Lib.Layer
 
         public void Notify(string message)
         {
-            ClientCallback.Publish(ClientMacAddress,message);
+            Callback.Publish(Mac, message);
         }
 
         public override bool Equals(object obj)
@@ -54,7 +55,7 @@ namespace Lib.Layer
             if (!eq)
             {
                 Subscriber ls = obj as Subscriber;
-                if (ls.ClientCallback.Equals(this.ClientCallback))
+                if (ls.Callback.Equals(this.Callback))
                 {
                     eq = true;
                 }
@@ -69,8 +70,10 @@ namespace Lib.Layer
 
         public override string ToString()
         {
-            return string.Format("{0}({1}:{2})", this.ClientMacAddress, this.ClientIPAddress, this.ClientPort);
+            return string.Format("{0}({1}:{2})", this.Mac, this.IP, this.Port);
         }
+
+
 
     }
 

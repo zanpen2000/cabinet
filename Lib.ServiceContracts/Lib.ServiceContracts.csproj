@@ -44,8 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IManager.cs" />
-    <Compile Include="IManagerCallback.cs" />
     <Compile Include="ISubscriber.cs" />
     <Compile Include="ISubscriberCallback.cs" />
     <Compile Include="IPublishService.cs" />

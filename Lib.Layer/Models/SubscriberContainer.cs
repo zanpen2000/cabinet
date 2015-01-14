@@ -73,9 +73,9 @@ namespace Lib.Layer
         {
             lock (_syncLock)
             {
-                if (_subscribers.Count(x => x.ClientMacAddress == listener.ClientMacAddress) > 0 && !AllowClientMultipleRegistration)
+                if (_subscribers.Count(x => x.Mac == listener.Mac) > 0 && !AllowClientMultipleRegistration)
                 {
-                    Console.WriteLine("重复注册订阅者{0}", listener.ClientMacAddress);
+                    Console.WriteLine("重复注册订阅者{0}", listener.Mac);
                 }
                 else
                 {
@@ -92,9 +92,9 @@ namespace Lib.Layer
         {
             lock (_syncLock)
             {
-                if (_subscribers.Count(x => x.ClientMacAddress == listener.ClientMacAddress) > 0)
+                if (_subscribers.Count(x => x.Mac == listener.Mac) > 0)
                 {
-                    this._subscribers.RemoveAll(x => x.ClientMacAddress == listener.ClientMacAddress);
+                    this._subscribers.RemoveAll(x => x.Mac == listener.Mac);
                 }
             }
             if (SubscriberRemoved != null)
@@ -123,7 +123,7 @@ namespace Lib.Layer
         public void NotifyMessage(string clientMac, string message)
         {
             ISubscriber[] listeners = _subscribers.ToArray();
-            foreach (ISubscriber lstn in listeners.Where(l => l.ClientMacAddress == clientMac))
+            foreach (ISubscriber lstn in listeners.Where(l => l.Mac == clientMac))
             {
                 try
                 {
@@ -142,7 +142,7 @@ namespace Lib.Layer
 
             foreach (ISubscriber lstn in listeners)
             {
-                if (clientMacs.Contains(lstn.ClientMacAddress))
+                if (clientMacs.Contains(lstn.Mac))
                 {
                     try
                     {

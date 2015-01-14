@@ -6,15 +6,16 @@ using System.Text;
 
 namespace Lib.ServiceContracts
 {
-    
+
     public interface ISubscriber
     {
-       
-        string ClientMacAddress { get; }
-        string ClientIPAddress { get; }
-        int ClientPort { get; }
+        bool IsManager { get; }
 
-        ISubscriberCallback ClientCallback { get; }
+        string Mac { get; }
+        string IP { get; }
+        int Port { get; }
+
+        ISubscriberCallback Callback { get; }
 
         void Notify(string message);
     }

@@ -66,7 +66,7 @@ namespace Lib.ServiceImpl
         public void GetSubscribers()
         {
             ISubscriberCallback callback = OperationContext.Current.GetCallbackChannel<ISubscriberCallback>();
-            callback.ReturnSubscribers((from n in SubscriberContainer.Instance.Subscribers select n.ClientMacAddress).ToList());
+            callback.ReturnSubscribers((from n in SubscriberContainer.Instance.Subscribers select n.Mac).ToList());
         }
     }
 }
