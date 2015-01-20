@@ -44,9 +44,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="enum_OnlineState.cs" />
+    <Compile Include="IDuplexChannelCallback.cs" />
+    <Compile Include="IDuplexChannelService.cs" />
+    <Compile Include="IMainService.cs" />
     <Compile Include="ISubscriber.cs" />
-    <Compile Include="ISubscriberCallback.cs" />
-    <Compile Include="IPublishService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

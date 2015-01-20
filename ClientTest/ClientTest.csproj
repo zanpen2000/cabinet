@@ -54,6 +54,10 @@
       <Project>{463a06b0-5e73-43f1-80a4-b9b8393bcdd1}</Project>
       <Name>Lib.ServiceContracts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Lib.ServiceImpl\Lib.ServiceImpl.csproj">
+      <Project>{ff6819d6-39c8-4fba-9649-0e953c9c9430}</Project>
+      <Name>Lib.ServiceImpl</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

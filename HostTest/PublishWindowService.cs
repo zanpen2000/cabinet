@@ -7,6 +7,7 @@ using System.ServiceProcess;
 using System.Text;
 using System.IO;
 using Lib.Layer;
+using System.ServiceModel.Description;
 
 namespace HostService
 {
@@ -16,7 +17,7 @@ namespace HostService
 
         public PublishWindowService()
         {
-            ServiceName = "TSDYKJ_PublishService";
+            ServiceName = "TSDYKJ_CabinetService";
 
         }
 
@@ -32,7 +33,7 @@ namespace HostService
                 serviceHost.Close();
             }
 
-            serviceHost = new ServiceHost(typeof(Lib.ServiceImpl.PublishService));
+            serviceHost = new ServiceHost(typeof(Lib.ServiceImpl.ServiceImpl));
 
             SubscriberContainer.Instance.SubscriberAdded += Instance_SubscriberAdded;
             SubscriberContainer.Instance.SubscriberRemoved += Instance_SubscriberRemoved;
@@ -72,14 +73,11 @@ namespace HostService
         private void Instance_SubscriberRemoved(object sender, SubscriberMessageEventArgs e)
         {
             Logger.AppendUserMessage(string.Format("客户端离线：{0}", e.Subscriber.Mac));
-
         }
 
         private void Instance_SubscriberAdded(object sender, SubscriberMessageEventArgs e)
         {
             Logger.AppendUserMessage(string.Format("客户端上线：{0}", e.Subscriber.Mac));
-            //Logger.AppendUserMessage(string.Format("客户端上线：{0}", e.Subscriber.ToString()));
-
         }
 
         protected override void OnStop()

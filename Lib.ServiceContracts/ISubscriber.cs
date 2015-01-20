@@ -15,7 +15,7 @@ namespace Lib.ServiceContracts
         string IP { get; }
         int Port { get; }
 
-        ISubscriberCallback Callback { get; }
+        IDuplexChannelCallback Callback { get; }
 
         void Notify(string message);
     }

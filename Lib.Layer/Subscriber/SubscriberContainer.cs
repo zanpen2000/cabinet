@@ -8,7 +8,10 @@ using System.Text;
 
 namespace Lib.Layer
 {
-    
+
+    /// <summary>
+    /// 订阅者容器
+    /// </summary>
     public class SubscriberContainer
     {
         #region 单例实现
@@ -73,11 +76,7 @@ namespace Lib.Layer
         {
             lock (_syncLock)
             {
-                if (_subscribers.Count(x => x.Mac == listener.Mac) > 0 && !AllowClientMultipleRegistration)
-                {
-                    Console.WriteLine("重复注册订阅者{0}", listener.Mac);
-                }
-                else
+                if (!Exists(listener))
                 {
                     _subscribers.Add(listener);
                     if (SubscriberAdded != null)
@@ -85,7 +84,28 @@ namespace Lib.Layer
                         this.SubscriberAdded(this, new SubscriberMessageEventArgs(listener));
                     }
                 }
+                else if (MacExists(listener.Mac))
+                {
+                    //update container
+                    var sub = _subscribers.Find(ps => ps.Mac == listener.Mac);
+                    _subscribers.Remove(sub);
+                    _subscribers.Add(listener);
+                }
+                else
+                {
+                    //重复注册订阅者
+                }
             }
+        }
+
+        private bool MacExists(string Mac)
+        {
+            return _subscribers.Exists(s => s.Mac == Mac);
+        }
+
+        public bool Exists(ISubscriber sub)
+        {
+            return _subscribers.Exists(s => s.Mac == sub.Mac && s.IP == sub.IP && s.Port == sub.Port);
         }
 
         public void RemoveSubscriber(ISubscriber listener)

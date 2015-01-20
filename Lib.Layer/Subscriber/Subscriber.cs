@@ -19,12 +19,12 @@ namespace Lib.Layer
 
         public bool IsManager { get; private set; }
 
-        public ISubscriberCallback Callback
+        public IDuplexChannelCallback Callback
         {
             get;
             private set;
         }
-        private Subscriber(string cMac, string cIP, int cPort, ISubscriberCallback clientCallback, bool isManager = false)
+        private Subscriber(string cMac, string cIP, int cPort, IDuplexChannelCallback clientCallback, bool isManager = false)
             : this()
         {
             this.Mac = cMac; this.IP = cIP; this.Port = cPort; this.Callback = clientCallback; this.IsManager = isManager;
@@ -35,7 +35,7 @@ namespace Lib.Layer
 
         }
 
-        public static ISubscriber NewSubscriber(string cMac, string cIP, int cPort, ISubscriberCallback clientCallback, bool isManager = false)
+        public static ISubscriber NewSubscriber(string cMac, string cIP, int cPort, IDuplexChannelCallback clientCallback, bool isManager = false)
         {
             ISubscriber suber = new Subscriber(cMac, cIP, cPort, clientCallback, isManager);
             ProxyGenerator generator = new ProxyGenerator();
@@ -43,12 +43,7 @@ namespace Lib.Layer
             suber = subscriber;
             return suber;
         }
-
-        public void Notify(string message)
-        {
-            Callback.Publish(Mac, message);
-        }
-
+ 
         public override bool Equals(object obj)
         {
             bool eq = base.Equals(obj);
@@ -73,8 +68,10 @@ namespace Lib.Layer
             return string.Format("{0}({1}:{2})", this.Mac, this.IP, this.Port);
         }
 
-
-
+        public void Notify(string message)
+        {
+            Callback.Broadcast(message);
+        }
     }
 
 
