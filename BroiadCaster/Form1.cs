@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Lib.Layer;
 using Lib.ServiceContracts;
 using System.ServiceModel;
+using Lib.Layer.Client;
 
 namespace BroiadCaster
 {
@@ -18,50 +19,28 @@ namespace BroiadCaster
         public Form1()
         {
             InitializeComponent();
-    
+
         }
 
-        void cb_OnClientsReturn(object sender, ClientsReturnEventArgs e)
-        {
-         
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            //var clients = textBox2.Text.Split(new char[] { ',', ' ' });
+            var clients = textBox2.Text.Split(new char[] { ',', ' ' });
 
-            //ServiceCaller.Execute<IPublishService>(callback_OnPublish, net =>
-            //{
-            //    foreach (var item in clients.ToArray())
-            //    {
-            //        net.Broadcast(item, textBox1.Text);
-            //    }
-            //});
+            ServiceProxy.Call<IDuplexChannelService, IDuplexChannelCallback>(this, net =>
+            {
+                net.Broadcast(clients, textBox1.Text);
+            });
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //System.Threading.Tasks.Task.Factory.StartNew(() =>
-            //{
-            //    SubscriberCallback cb = new SubscriberCallback();
-            //    cb.OnReturnSubscribers += cb_OnReturnSubscribers;
-
-            //    InstanceContext ins = new InstanceContext(cb);
-            //    ServiceCaller.Execute<IPublishService>(ins, net =>
-            //    {
-            //        net.GetSubscribers();
-            //    });
-            //});
-        }
-
-     
-
-
-        public void ReturnSubscribers(IEnumerable<string> subscriberMacs)
-        {
-            Invoke((Action)delegate
+            System.Threading.Tasks.Task.Factory.StartNew(() =>
             {
-                this.listBox1.DataSource = subscriberMacs;
+                ServiceProxy.Call<IDuplexChannelService, IDuplexChannelCallback>(this, net =>
+                {
+                    net.GetClients();
+                });
             });
         }
 
@@ -77,19 +56,11 @@ namespace BroiadCaster
 
         public void ReturnClients(IEnumerable<string> clientMacs)
         {
-            throw new NotImplementedException();
+            Invoke((Action)delegate
+            {
+                listBox1.DataSource = clientMacs;
+            });
         }
-
-        public void ReturnOnlineResult(OnlineState state)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ReturnOfflineResult(OnlineState state)
-        {
-            throw new NotImplementedException();
-        }
-
 
         public void ReturnOnlineResult(string mac, OnlineState state)
         {

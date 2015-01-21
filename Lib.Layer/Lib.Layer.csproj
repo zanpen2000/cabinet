@@ -53,6 +53,8 @@
     <Compile Include="Aop\LogAttribute.cs" />
     <Compile Include="Aop\Logger.cs" />
     <Compile Include="Client\ProxyFactory.cs" />
+    <Compile Include="Client\ReconnectionEventArgs.cs" />
+    <Compile Include="Client\ServiceProxy.cs" />
     <Compile Include="EventArgs\MessageNotifyErrorEventArgs.cs" />
     <Compile Include="EventArgs\SubscriberMessageEventArgs.cs" />
     <Compile Include="IOC.cs" />

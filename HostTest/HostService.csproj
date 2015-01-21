@@ -53,10 +53,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\BehaviorLibrarys\BehaviorLibrarys.csproj">
-      <Project>{d494dcf0-ee05-4644-9346-d4cb85fc858b}</Project>
-      <Name>BehaviorLibrarys</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Lib.Layer\Lib.Layer.csproj">
       <Project>{7910f50b-4b1c-4845-93ea-dad746e7ce27}</Project>
       <Name>Lib.Layer</Name>

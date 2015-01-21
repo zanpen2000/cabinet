@@ -15,8 +15,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HostService", "HostTest\Hos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lib.Layer", "Lib.Layer\Lib.Layer.csproj", "{7910F50B-4B1C-4845-93EA-DAD746E7CE27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BehaviorLibrarys", "BehaviorLibrarys\BehaviorLibrarys.csproj", "{D494DCF0-EE05-4644-9346-D4CB85FC858B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BroiadCaster", "BroiadCaster\BroiadCaster.csproj", "{4D3D47D0-BD9F-465E-93A9-FC4836658340}"
 EndProject
 Global
@@ -49,10 +47,6 @@ Global
 		{7910F50B-4B1C-4845-93EA-DAD746E7CE27}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7910F50B-4B1C-4845-93EA-DAD746E7CE27}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7910F50B-4B1C-4845-93EA-DAD746E7CE27}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D494DCF0-EE05-4644-9346-D4CB85FC858B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D494DCF0-EE05-4644-9346-D4CB85FC858B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D494DCF0-EE05-4644-9346-D4CB85FC858B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D494DCF0-EE05-4644-9346-D4CB85FC858B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4D3D47D0-BD9F-465E-93A9-FC4836658340}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4D3D47D0-BD9F-465E-93A9-FC4836658340}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4D3D47D0-BD9F-465E-93A9-FC4836658340}.Release|Any CPU.ActiveCfg = Release|Any CPU
