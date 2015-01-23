@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Lib.ServiceContracts
 {
-    [ServiceContract(CallbackContract=typeof(IDuplexChannelCallback))]
+    [ServiceContract(CallbackContract = typeof(IDuplexChannelCallback))]
     public interface IDuplexChannelService
     {
         /// <summary>
@@ -14,21 +14,21 @@ namespace Lib.ServiceContracts
         /// </summary>
         /// <param name="Mac"></param>
         /// <param name="isManager"></param>
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void Online(string Mac, bool isManager);
 
         /// <summary>
         /// 客户端主动离线方法
         /// </summary>
         /// <param name="Mac"></param>
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void Offline(string Mac);
 
         /// <summary>
         /// 心跳监测
         /// </summary>
         /// <param name="b"></param>
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void HeartBeat(byte b);
 
 
@@ -36,7 +36,7 @@ namespace Lib.ServiceContracts
         /// 广播到所有在线客户端
         /// </summary>
         /// <param name="msg"></param>
-        [OperationContract(Name = "BroadcastAllClient")]
+        [OperationContract(Name = "BroadcastAllClient", IsOneWay = true)]
         void Broadcast(string msg);
 
         /// <summary>
@@ -45,7 +45,7 @@ namespace Lib.ServiceContracts
         /// <param name="clientMac"></param>
         /// <param name="msg"></param>
 
-        [OperationContract(Name = "BroadcastToClient")]
+        [OperationContract(Name = "BroadcastToClient", IsOneWay = true)]
         void Broadcast(string clientMac, string msg);
 
 
@@ -54,13 +54,13 @@ namespace Lib.ServiceContracts
         /// </summary>
         /// <param name="clientMacs"></param>
         /// <param name="msg"></param>
-        [OperationContract(Name = "BroadcastToClients")]
+        [OperationContract(Name = "BroadcastToClients", IsOneWay = true)]
         void Broadcast(IEnumerable<string> clientMacs, string msg);
 
         /// <summary>
         /// 获取订阅者
         /// </summary>
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void GetClients();
     }
 }

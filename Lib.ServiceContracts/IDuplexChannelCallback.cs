@@ -6,21 +6,23 @@ using System.Text;
 
 namespace Lib.ServiceContracts
 {
+
     public interface IDuplexChannelCallback
     {
-        [OperationContract]
+       
+        [OperationContract(IsOneWay=true)]
         void Broadcast(string message);
 
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void ReturnHeartBeat(byte b);
 
-        [OperationContract]
-        void ReturnClients(IEnumerable<string> clientMacs);
+        [OperationContract(IsOneWay = true)]
+        void ReturnClients(IEnumerable<ISubscriber> clientMacs);
 
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void ReturnOnlineResult(string mac, OnlineState state);
 
-        [OperationContract]
+        [OperationContract(IsOneWay = true)]
         void ReturnOfflineResult(string mac, OnlineState state);
 
     }

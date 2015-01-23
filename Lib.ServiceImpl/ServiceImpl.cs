@@ -10,7 +10,7 @@ namespace Lib.ServiceImpl
     using System.ServiceModel;
     using System.ServiceModel.Channels;
 
-    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Reentrant)]
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerSession, ConcurrencyMode = ConcurrencyMode.Multiple)]
     public partial class ServiceImpl 
 
     {

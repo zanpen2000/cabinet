@@ -5,15 +5,18 @@ using System.Text;
 
 namespace Lib.Layer.Client
 {
+    /// <summary>
+    /// WCf服务用户调用入口
+    /// </summary>
     public class ServiceProxy
     {
-        //超出连接重试次数的事件处理
-        public static event EventHandler OnClientOffLine = delegate { };
-        //正在重试第N次
-        public static event EventHandler<ReconnectionEventArgs> OnClientReconnection = delegate { };
-        static int RetryTimes = int.Parse(Librarys.AppSettings.Get("RetryTimes"));
-        static int _currentTime = 0;
-
+        /// <summary>
+        /// 带有回调的服务调用
+        /// </summary>
+        /// <typeparam name="ISvc"></typeparam>
+        /// <typeparam name="ICallback"></typeparam>
+        /// <param name="callback"></param>
+        /// <param name="ac"></param>
         public static void Call<ISvc, ICallback>(ICallback callback, Action<ISvc> ac)
         {
             ISvc svc = ProxyFactory.GetProxy<ISvc, ICallback>(callback);
@@ -24,21 +27,16 @@ namespace Lib.Layer.Client
             }
             catch (Exception)
             {
-
-                if (_currentTime < RetryTimes)
-                {
-                    _currentTime++;
-
-                    OnClientReconnection(null, new ReconnectionEventArgs(_currentTime, RetryTimes));
-                    Call<ISvc, ICallback>(callback, ac);
-                }
-                else
-                {
-                    //超出重试次数，客户端或者服务器离线
-                    OnClientOffLine(null, null);
-                }
+                
+                OnlineToService.ReAction<ISvc, ICallback>(callback, ac);
             }
         }
+
+        /// <summary>
+        /// 无回调的服务调用（立即返回结果）
+        /// </summary>
+        /// <typeparam name="ISvc"></typeparam>
+        /// <param name="ac"></param>
         public static void Call<ISvc>(Action<ISvc> ac)
         {
             ISvc svc = ProxyFactory.GetProxy<ISvc>();
@@ -49,17 +47,7 @@ namespace Lib.Layer.Client
             }
             catch (Exception)
             {
-                if (_currentTime < RetryTimes)
-                {
-                    _currentTime++;
-                    OnClientReconnection(null, new ReconnectionEventArgs(_currentTime, RetryTimes));
-                    Call<ISvc>(ac);
-                }
-                else
-                {
-                    //超出重试次数，客户端或者服务器离线
-                    OnClientOffLine(null, null);
-                }
+                OnlineToService.ReAction<ISvc>(ac);
             }
         }
     }

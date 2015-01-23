@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Lib.ServiceContracts
 {
-
+    
     public interface ISubscriber
     {
         bool IsManager { get; }
@@ -14,7 +14,6 @@ namespace Lib.ServiceContracts
         string Mac { get; }
         string IP { get; }
         int Port { get; }
-
         IDuplexChannelCallback Callback { get; }
 
         void Notify(string message);

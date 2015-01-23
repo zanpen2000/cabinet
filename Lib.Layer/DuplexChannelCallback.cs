@@ -18,7 +18,7 @@ namespace Lib.Layer
             OnHeartBeatCallback(this, new HeartBeatEventArgs(b));
         }
 
-        public void ReturnClients(IEnumerable<string> clientMacs)
+        public void ReturnClients(IEnumerable<ISubscriber> clientMacs)
         {
             OnClientsReturn(this, new ClientsReturnEventArgs(clientMacs));
         }
@@ -65,9 +65,9 @@ namespace Lib.Layer
 
     public class ClientsReturnEventArgs : EventArgs
     {
-        public IEnumerable<string> Macs { get; private set; }
+        public IEnumerable<ISubscriber> Macs { get; private set; }
 
-        public ClientsReturnEventArgs(IEnumerable<string> clientMacs)
+        public ClientsReturnEventArgs(IEnumerable<ISubscriber> clientMacs)
         {
             this.Macs = clientMacs;
         }

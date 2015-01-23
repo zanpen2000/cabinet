@@ -12,11 +12,8 @@ namespace Lib.Layer
     public class Subscriber : ISubscriber
     {
         public string Mac { get; private set; }
-
         public string IP { get; private set; }
-
         public int Port { get; private set; }
-
         public bool IsManager { get; private set; }
 
         public IDuplexChannelCallback Callback
@@ -30,20 +27,36 @@ namespace Lib.Layer
             this.Mac = cMac; this.IP = cIP; this.Port = cPort; this.Callback = clientCallback; this.IsManager = isManager;
         }
 
-        public Subscriber()
-        {
+        public Subscriber() { }
 
-        }
+
+        #region 单例实现
+        private static readonly object _syncLock = new object();
+        private static ISubscriber _instance;
 
         public static ISubscriber NewSubscriber(string cMac, string cIP, int cPort, IDuplexChannelCallback clientCallback, bool isManager = false)
         {
-            ISubscriber suber = new Subscriber(cMac, cIP, cPort, clientCallback, isManager);
-            ProxyGenerator generator = new ProxyGenerator();
-            ISubscriber subscriber = (ISubscriber)generator.CreateInterfaceProxyWithTarget(typeof(ISubscriber), suber, new InterceptorProxy());
-            suber = subscriber;
-            return suber;
+            if (_instance == null)
+            {
+                lock (_syncLock)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new Subscriber(cMac, cIP, cPort, clientCallback, isManager);
+                    }
+                }
+            }
+            return _instance;
+
+            //ISubscriber suber = new Subscriber(cMac, cIP, cPort, clientCallback, isManager);
+            //ProxyGenerator generator = new ProxyGenerator();
+            //ISubscriber subscriber = (ISubscriber)generator.CreateInterfaceProxyWithTarget(typeof(ISubscriber), suber, new InterceptorProxy());
+            //suber = subscriber;
+            //return suber;
         }
- 
+
+        #endregion
+
         public override bool Equals(object obj)
         {
             bool eq = base.Equals(obj);
@@ -65,7 +78,7 @@ namespace Lib.Layer
 
         public override string ToString()
         {
-            return string.Format("{0}({1}:{2})", this.Mac, this.IP, this.Port);
+            return string.Format("{0}({1}:{2}) - {3}", this.Mac, this.IP, this.Port, this.Callback.GetType().ToString());
         }
 
         public void Notify(string message)

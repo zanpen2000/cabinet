@@ -43,6 +43,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DuplexChannelService.cs" />
+    <Compile Include="MainService.cs" />
+    <Compile Include="Model\IServiceModule.cs" />
+    <Compile Include="Model\ServiceModule.cs" />
     <Compile Include="ServiceImpl.cs" />
     <Compile Include="DuplexChannelService.svc.cs" />
     <Compile Include="MainService.svc.cs" />

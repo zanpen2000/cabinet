@@ -9,13 +9,14 @@ namespace Lib.ServiceImpl
     using ServiceContracts;
     using System.ServiceModel;
     using System.ServiceModel.Channels;
+    using Model;
 
     public partial class ServiceImpl : IMainService
     {
 
         public string Test(string msg)
         {
-            return msg;
+            return MainService.Instance.Test(msg);
         }
     }
 }

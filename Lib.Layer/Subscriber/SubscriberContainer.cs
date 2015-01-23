@@ -36,15 +36,10 @@ namespace Lib.Layer
             }
         }
 
-        private SubscriberContainer()
-        {
-
-        }
-
-
+        private SubscriberContainer() { }
 
         #endregion
-
+ 
         public List<ISubscriber> Subscribers { get { return _subscribers; } }
 
         public event EventHandler<SubscriberMessageEventArgs> SubscriberAdded;
